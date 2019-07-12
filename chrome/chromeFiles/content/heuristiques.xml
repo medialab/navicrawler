@@ -1,0 +1,677 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<document>
+
+	<!-- Un filtre pour l'interface Blogger. Très utilisé par les anglais(es). -->
+	<filter label="blogger" date="13 avril 2010">
+		<domain_template>http:\/\/.*\.blogger\.com\/profile\/.*</domain_template>
+
+
+		<!-- le profil défini par son adresse -->
+		<define_element label="bloggerProfil" type="independentEntity">
+		<target_node_template>theNode.nodeName=="TITLE"</target_node_template>
+		<grab>theNode.baseURI.split("/profile/")[1]</grab>
+		</define_element>
+
+		<!-- le pseudo du profil -->
+		<define_element label="Nom" type="entityUniqueProperty">
+		<target_node_template>theNode.nodeName=="H1"</target_node_template>
+		<grab>theNode.textContent</grab>
+		<entityType>bloggerProfil</entityType>
+		</define_element>
+
+		<!-- le lien vers le blog personnel -->
+		<define_element label="Blog" type="entityToSiteLink">
+		<target_node_template>theNode.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE" &amp;&amp; theNode.parentNode.parentNode.parentNode.parentNode.parentNode.id=="blogs"</target_node_template>
+		<entityType>bloggerProfil</entityType>
+		<grab>theNode.baseURI.split("/profile/")[1]</grab>
+		<site>"http://"+theNode.host</site>
+		</define_element>
+
+		<!-- liens vers les blogs amis (ce qui, chez blogger, est désigné par "être membre" d'un blog) -->
+		<define_element label="Amis" type="entityToSiteLink">
+		<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="followed-blog"</target_node_template>
+		<entityType>bloggerProfil</entityType>
+		<grab>theNode.baseURI.split("/profile/")[1]</grab>
+		<site>"http://"+theNode.firstChild.host</site>
+		</define_element>
+	</filter> 
+	
+	<filter label="CropScience" date="21 juin 2010">
+		<domain_template>http:\/\/cropsci\.illinois\.edu\/faculty\/[^\/]*\/</domain_template>
+		<define_element label="Profile" type="independantEntity">
+			<target_node_template>theNode.id=="secthead"</target_node_template>
+			<grab>theNode.childNodes[1].childNodes[1].firstChild.childNodes[5].childNodes[1].textContent</grab>
+		</define_element>
+		<define_element label="Information" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="secthead"</target_node_template>
+			<grab>theNode.childNodes[1].childNodes[1].firstChild.childNodes[5].childNodes[3].textContent</grab>
+			<entityType>Profile</entityType>
+		</define_element>
+		<define_element label="MoreInformation" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="secthead"</target_node_template>
+			<grab>theNode.nextSibling.nextSibling.textContent</grab>
+			<entityType>Profile</entityType>
+		</define_element>
+	</filter>
+
+	<filter label="HubMed" date="22 février 2010">
+		<domain_template>http:\/\/www\.hubmed\.org\/search\.cgi.*</domain_template>
+		<define_element label="HubMedItem" type="independantEntity">
+			<target_node_template>theNode.id=="inputSpan"</target_node_template>
+			<grab>theNode.textContent</grab>
+		</define_element>
+		<define_element label="HubMedItem" type="independantEntity">
+			<target_node_template>theNode.parentNode.parentNode.className=="results_table" &amp;&amp; theNode.nodeName=="TR"</target_node_template>
+			<grab>theNode.id.split("_")[1]</grab>
+		</define_element>
+		<define_element label="ArticleName" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.parentNode.className=="results_table" &amp;&amp; theNode.nodeName=="TR"</target_node_template>
+			<grab>theNode.childNodes[3].childNodes[1].textContent</grab>
+			<entityType>HubMedItem</entityType>
+			<entity>theNode.id.split("_")[1]</entity>
+		</define_element>
+		<define_element label="RelatedTo" type="entityToEntityLink">
+			<target_node_template>theNode.parentNode.parentNode.className=="results_table" &amp;&amp; theNode.nodeName=="TR"</target_node_template>
+			<targetType>HubMedItem</targetType>
+			<grab>theNode.baseURI.split("q=")[1].split("&amp;")[0].replace("+", " ")</grab>
+			<sourceType>HubMedItem</sourceType>
+			<source>theNode.id.split("_")[1]</source>
+		</define_element>
+	</filter>
+	
+	<filter label="Google Scholar Cited By" date="22 février 2010">
+		<domain_template>http:\/\/scholar\.google\..*\/scholar\?.*cites=.*</domain_template>
+		<define_element label="GoogleScholarArticle" type="independantEntity">
+			<target_node_template>theNode.nodeName=="BODY"</target_node_template>
+			<grab>theNode.baseURI.substr(theNode.baseURI.indexOf("cites=") + 6, 25).split("&amp;")[0]</grab>
+		</define_element>
+		<define_element label="GoogleScholarArticle" type="independantEntity">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.href.substr(theNode.href.indexOf("cites=") + 6, 25).split("&amp;")[0]</grab>
+		</define_element>
+		<define_element label="ArticleName" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.parentNode.parentNode.parentNode.firstChild.lastChild.textContent</grab>
+			<entityType>GoogleScholarArticle</entityType>
+			<entity>theNode.href.substr(theNode.href.indexOf("cites=") + 6, 25).split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="ArticleLink" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.parentNode.parentNode.parentNode.firstChild.lastChild.href</grab>
+			<entityType>GoogleScholarArticle</entityType>
+			<entity>theNode.href.substr(theNode.href.indexOf("cites=") + 6 25).split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="Cites" type="entityToEntityLink">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<targetType>GoogleScholarArticle</targetType>
+			<grab>theNode.baseURI.substr(theNode.baseURI.indexOf("cites=") + 6, 25).split("&amp;")[0]</grab>
+			<sourceType>GoogleScholarArticle</sourceType>
+			<source>theNode.href.substr(theNode.href.indexOf("cites=") + 6, 25).split("&amp;")[0]</source>
+		</define_element>
+	</filter>
+	
+	<filter label="Google Scholar Results" date="22	 février 2010">
+		<domain_template>http:\/\/scholar\.google\..*\/scholar\?.*q=</domain_template>
+		<define_element label="GoogleScholarQuery" type="independantEntity">
+			<target_node_template>theNode.nodeName=="BODY"</target_node_template>
+			<grab>theNode.baseURI.substr(theNode.baseURI.indexOf("q=") + 2, 25).split("&amp;")[0]</grab>
+		</define_element>
+		<define_element label="QueryName" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="BODY"</target_node_template>
+			<grab>theNode.baseURI.substr(theNode.baseURI.indexOf("q=") + 2, 25).split("&amp;")[0]</grab>
+			<entityType>GoogleScholarQuery</entityType>
+		</define_element>
+		<define_element label="GoogleScholarArticle" type="independantEntity">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.href.substr(theNode.href.indexOf("scholar?cites=") + 14, 25).split("&amp;")[0]</grab>
+		</define_element>
+		<define_element label="ArticleName" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.parentNode.parentNode.parentNode.firstChild.lastChild.textContent</grab>
+			<entityType>GoogleScholarArticle</entityType>
+			<entity>theNode.href.substr(theNode.href.indexOf("scholar?cites=") + 14, 25).split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="ArticleLink" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<grab>theNode.parentNode.parentNode.parentNode.firstChild.lastChild.href</grab>
+			<entityType>GoogleScholarArticle</entityType>
+			<entity>theNode.href.substr(theNode.href.indexOf("scholar?cites=") + 14, 25).split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="FoundBy" type="entityToEntityLink">
+			<target_node_template>theNode.parentNode.className=="gs_fl" &amp;&amp; theNode.href.indexOf("scholar?cites=")>0</target_node_template>
+			<targetType>GoogleScholarQuery</targetType>
+			<grab>theNode.baseURI.substr(theNode.baseURI.indexOf("q=") + 2, 25).split("&amp;")[0]</grab>
+			<sourceType>GoogleScholarArticle</sourceType>
+			<source>theNode.href.substr(theNode.href.indexOf("scholar?cites=") + 14, 25).split("&amp;")[0]</source>
+		</define_element>
+	</filter>
+	
+	<!-- Un exemple de filtre simple à créer : récupérer les images dans n'importe quelle page. -->
+	<filter label="ToutesImages" date="11 avril 2008">
+		<domain_template>http:\/\/.+</domain_template>
+		<define_element label="Image" type="node">
+			<target_node_template>theNode.nodeName=="IMG"</target_node_template>
+			<grab>theNode.src</grab>
+		</define_element>
+	</filter>
+	
+	<filter label="Mahokayacan ABC" date="13 janvier 2009">
+		<domain_template>http:\/\/mahokayacan\.free\.fr\/clips_.*</domain_template>
+		<define_element label="databaseLine" type="independantEntity">
+			<target_node_template>theNode.className=="cellule" &amp;&amp; theNode.parentNode.parentNode.id=="table3"</target_node_template>
+			<grab>theNode.textContent</grab>
+		</define_element>
+	</filter>
+	
+	<filter label="ExaleadKeywordsFr" date="2 decembre 2008">
+		<domain_template>http:\/\/www\.exalead\.fr\/search\/.*</domain_template>
+		<define_element label="ExaKeywordURL" type="node">
+			<target_node_template>theNode.nodeName=="SPAN" &amp;&amp; theNode.parentNode.parentNode.parentNode.parentNode.id=="i79"</target_node_template>
+			<grab>"http://www.exalead.fr/search/results?q="+theNode.childNodes[1].textContent+"&amp;x=0&amp;y=0&amp;%24mode=allweb&amp;%24searchlanguages=fr"</grab>
+		</define_element>
+		<define_element label="Keyword" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="SPAN" &amp;&amp; theNode.parentNode.parentNode.parentNode.parentNode.id=="i79"</target_node_template>
+			<grab>theNode.childNodes[1].textContent</grab>
+			<entityType>ExaKeywordURL</entityType>
+			<entity>"http://www.exalead.fr/search/results?q="+theNode.childNodes[1].textContent+"&amp;x=0&amp;y=0&amp;%24mode=allweb&amp;%24searchlanguages=fr"</entity>
+		</define_element>
+		<define_element label="Refers" type="entityToEntityLink">
+			<target_node_template>theNode.parentNode.previousSibling.previousSibling.firstChild.nodeValue == "Termes associés"</target_node_template>
+			<targetType>ExaKeywordURL</targetType>
+			<grab>"http://www.exalead.fr/search/results?q="+theNode.firstChild.firstChild.nodeValue+"&amp;x=0&amp;y=0&amp;%24mode=allweb&amp;%24searchlanguages=fr"</grab>
+			<sourceType>ExaKeywordURL</sourceType>
+		</define_element>
+		<define_element label="Keyword" type="entityUniqueProperty">
+			<target_node_template>theNode.parentNode.previousSibling.previousSibling.firstChild.nodeValue == "Termes associés"</target_node_template>
+			<grab>theNode.firstChild.firstChild.nodeValue</grab>
+			<entityType>ExaKeywordURL</entityType>
+			<entity>"http://www.exalead.fr/search/results?q="+theNode.firstChild.firstChild.nodeValue+"&amp;x=0&amp;y=0&amp;%24mode=allweb&amp;%24searchlanguages=fr"</entity>
+		</define_element>
+	</filter>
+	
+	<filter label="Wikipedia" date="29 avril 2008">
+		<domain_template>http:\/\/.*\.wikipedia\.org\/wiki\/.*</domain_template>
+		<define_element label="WikipediaArticle" type="independantEntity">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<grab>theNode.baseURI.split("/wiki/")[1].split("#")[0]</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<grab>theNode.baseURI.split("#")[0]</grab>
+			<entityType>WikipediaArticle</entityType>
+			<entity>theNode.baseURI.split("/wiki/")[1].split("#")[0]</entity>
+		</define_element>
+		<define_element label="Title" type="entityUniqueProperty">
+			<target_node_template>theNode.nextSibling.nextSibling.id=="bodyContent"</target_node_template>
+			<grab>theNode.textContent</grab>
+			<entityType></entityType>
+		</define_element>
+		<define_element label="Refers" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.href.indexOf("wikipedia.org/wiki/")>0 &amp;&amp; theNode.pathname.indexOf(":")==-1 &amp;&amp; theNode.parentNode.className.indexOf("interwiki")==-1</target_node_template>
+			<targetType>WikipediaArticle</targetType>
+			<grab>theNode.pathname.replace("/wiki/","").split("#")[0]</grab>
+			<sourceType>WikipediaArticle</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.href.indexOf("wikipedia.org/wiki/")>0 &amp;&amp; theNode.pathname.indexOf(":")==-1 &amp;&amp; theNode.parentNode.className.indexOf("interwiki")==-1</target_node_template>
+			<grab>theNode.href.split("#")[0]</grab>
+			<entityType>WikipediaArticle</entityType>
+			<entity>theNode.pathname.replace("/wiki/","").split("#")[0]</entity>
+		</define_element>
+		
+	</filter>
+	
+	<!-- Un autre exemple de filtre, pas forcément très utile. Il s'agit de récupérer les données dans les pages de résultats de Google. -->
+	<filter label="Google" date="10 avril 2008">
+		<domain_template>http:\/\/www\.google\..*\/.+</domain_template>
+		<!-- On déclare la page de résultat comme entité. On la lie à Google, et on récupère la requête, la plage de résultat (min et max) et le total de résultats.-->
+		<define_element label="ResultPage" type="independantEntity">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<grab>theNode.ownerDocument.baseURI</grab>
+		</define_element>
+		<define_element label="belongsTo" type="entityToSiteLink">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<entityType>URL</entityType>
+			<grab>theNode.ownerDocument.baseURI</grab>
+			<site>"http://"+theNode.ownerDocument.location.host</site>
+		</define_element>
+		<define_element label="Query" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="FONT" &amp;&amp; theNode.parentNode.previousSibling.firstChild.id=="sd"</target_node_template>
+			<grab>theNode.childNodes[7].firstChild.nodeValue</grab>
+			<entityType>ResultPage</entityType>
+		</define_element>
+		<define_element label="MinResult" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="FONT" &amp;&amp; theNode.parentNode.previousSibling.firstChild.id=="sd"</target_node_template>
+			<grab>theNode.childNodes[1].firstChild.nodeValue</grab>
+			<entityType>ResultPage</entityType>
+		</define_element>
+		<define_element label="MaxResult" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="FONT" &amp;&amp; theNode.parentNode.previousSibling.firstChild.id=="sd"</target_node_template>
+			<grab>theNode.childNodes[3].firstChild.nodeValue</grab>
+			<entityType>ResultPage</entityType>
+		</define_element>
+		<define_element label="TotalResults" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="FONT" &amp;&amp; theNode.parentNode.previousSibling.firstChild.id=="sd"</target_node_template>
+			<grab>theNode.childNodes[5].firstChild.nodeValue</grab>
+			<entityType>ResultPage</entityType>
+		</define_element>
+		<!-- On déclare les pages référencées dans les résultats comme entités. On les lie à leur site d'appartenance, et à la page de résultats. -->
+		<define_element label="Page" type="independantEntity">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.nodeName=="H2"</target_node_template>
+			<grab>theNode.href</grab>
+		</define_element>
+		<define_element label="belongsTo" type="entityToSiteLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.nodeName=="H2"</target_node_template>
+			<entityType>Page</entityType>
+			<grab>theNode.href</grab>
+			<site>"http://"+theNode.host</site>
+		</define_element>
+		<define_element label="relatedURL" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.nodeName=="H2"</target_node_template>
+			<targetType>Page</targetType>
+			<grab>theNode.href</grab>
+			<sourceType>ResultPage</sourceType>
+		</define_element>
+	</filter>
+	
+	<filter label="Skyrock" date="10 avril 2008">
+		<domain_template>http:\/\/.*\.skyrock\.com\/.*</domain_template>
+		<define_element label="SkyrockId" type="siteUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.parentNode.id=="blogwhois"</target_node_template>
+			<grab>theNode.childNodes[3].firstChild.firstChild.nodeValue</grab>
+		</define_element>
+		<define_element label="HasFriend" type="siteToSiteLink">
+			<target_node_template>theNode.nodeName=="LI" &amp;&amp; theNode.parentNode.parentNode.id=="amis"</target_node_template>
+			<grab>"http://"+theNode.childNodes[1].firstChild.nodeValue+".skyrock.com"</grab>
+		</define_element>
+		<define_element label="HasFavorite" type="siteToSiteLink">
+			<target_node_template>theNode.nodeName=="LI" &amp;&amp; theNode.parentNode.parentNode.id=="favoris"</target_node_template>
+			<grab>"http://"+theNode.childNodes[1].firstChild.nodeValue+".skyrock.com"</grab>
+		</define_element>
+		<define_element label="Comments" type="crawlPath">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="commentview"</target_node_template>
+			<grab>theNode.href</grab>
+		</define_element>
+		<define_element label="HasCommenter" type="siteToSiteLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.className.indexOf("comment-item identified")&gt;=0</target_node_template>
+			<grab>"http://"+theNode.host</grab>
+		</define_element>
+	</filter>
+	
+	<!-- Un filtre pour scrapper MySpace. On pourrait aller beaucoup plus loin, mais c'est déjà bien utile. Il capte les vidéos Dailymotion. Il ne capte pas Youtube : il y a un filtre générique pour ça ; pensez à l'activer. -->
+	<filter label="Myspace" date="10 avril 2008">
+		<domain_template>http:\/\/.*\.myspace\.com\/.+</domain_template>
+		<!-- profil, URL et nombre d'amis associés -->
+		<define_element label="MySpaceProfile" type="independantEntity">
+			<target_node_template>theNode.nodeName=="SPAN" &amp;&amp; theNode.className=="nametext"</target_node_template>
+			<grab>theNode.textContent</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.firstChild.nodeValue.substr(2,23)=="http://www.myspace.com/"</target_node_template>
+			<grab>theNode.firstChild.nodeValue.substr(2, theNode.firstChild.nodeValue.length-4)</grab>
+			<entityType>MySpaceProfile</entityType>
+		</define_element>
+		<define_element label="FriendsCount" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="SPAN" &amp;&amp; theNode.className=="redbtext" &amp;&amp; theNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.className=="text"</target_node_template>
+			<grab>theNode.textContent</grab>
+			<entityType>MySpaceProfile</entityType>
+		</define_element>
+		<!-- Vidéos DailyMotion affichées (et leur URL) -->
+		<define_element label="HasDiffused" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.host=="www.dailymotion.com" &amp;&amp; theNode.pathname.indexOf("/video/")==0</target_node_template>
+			<targetType>DailymotionVideo</targetType>
+			<grab>theNode.href.replace("http://www.dailymotion.com/video/","")</grab>
+			<sourceType>MySpaceProfile</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.host=="www.dailymotion.com" &amp;&amp; theNode.pathname.indexOf("/video/")==0</target_node_template>
+			<grab>theNode.href</grab>
+			<entityType>DailymotionVideo</entityType>
+			<entity>theNode.href.replace("http://www.dailymotion.com/video/","")</entity>
+		</define_element>
+		<!-- Profils Dailymotion (sont mis en même temps que les vidéos) et leur URL -->
+		<define_element label="HasForDiffuser" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.host=="www.dailymotion.com" &amp;&amp; theNode.pathname.indexOf("/video/")==-1</target_node_template>
+			<targetType>DailymotionProfile</targetType>
+			<grab>theNode.href.replace("http://www.dailymotion.com/", "")</grab>
+			<sourceType>MySpaceProfile</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.host=="www.dailymotion.com" &amp;&amp; theNode.pathname.indexOf("/video/")==-1</target_node_template>
+			<grab>theNode.href</grab>
+			<entityType>DailymotionProfile</entityType>
+			<entity>theNode.href.replace("http://www.dailymotion.com/", "")</entity>
+		</define_element>
+		<!-- Amis du profil MySpace : on déclare le lien qui créera l'entité, et on ajoute l'URL associée à cette entité -->
+		<define_element label="HasFriend" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.id.match("_friendLink")</target_node_template>
+			<targetType>MySpaceProfile</targetType>
+			<grab>theNode.text</grab>
+			<sourceType>MySpaceProfile</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.id.match("_friendLink")</target_node_template>
+			<grab>theNode.href</grab>
+			<entityType>MySpaceProfile</entityType>
+			<entity>theNode.text</entity>
+		</define_element>
+	</filter>
+	
+	<!-- Filtre très utile : récupère les vidéos Youtube n'importe où ! -->
+	<filter label="YouTube on ANY site" date="15 avril 2008">
+		<domain_template>http:\/\/.+</domain_template>
+		<define_element label="HasDiffused" type="siteToEntityLink">
+			<target_node_template>theNode.nodeName=="OBJECT" &amp;&amp; theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0]!=null &amp;&amp; theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0].match("http://www.youtube.com/v/")</target_node_template>
+			<entityType>YoutubeVideo</entityType>
+			<grab>theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0].replace("http://www.youtube.com/v/","")</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="OBJECT" &amp;&amp; theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0]!=null &amp;&amp; theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0].match("http://www.youtube.com/v/")</target_node_template>
+			<grab>"http://www.youtube.com/watch?v="+theNode.innerHTML.split("name=\"movie\"")[1].split("=\"")[1].split("\"")[0].replace("http://www.youtube.com/v/","")</grab>
+			<entityType>YoutubeVideo</entityType>
+		</define_element>
+	</filter>
+	
+	<!-- Filtre pour récupérer les infos des pages vidéos de YouTube -->
+	<filter label="YouTube Video Pages" date="15 avril 2008">
+		<domain_template>http:\/\/www\.youtube\.com\/watch.*</domain_template>
+		<!-- Vidéo de la page, avec son URL, son titre, le nombre de visionnages -->
+		<define_element label="YoutubeVideo" type="independantEntity">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<grab>theNode.ownerDocument.location.search.replace("?v=","").split("&amp;")[0]</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="HTML"</target_node_template>
+			<grab>"http://www.youtube.com/watch?v="+theNode.ownerDocument.location.search.replace("?v=","").split("&amp;")[0]</grab>
+			<entityType>YoutubeVideo</entityType>
+		</define_element>
+		<define_element label="Title" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="watch-vid-title"</target_node_template>
+			<grab>theNode.textContent</grab>
+			<entityType>YoutubeVideo</entityType>
+		</define_element>
+		<define_element label="ViewsCount" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="watch-view-count"</target_node_template>
+			<grab>theNode.textContent</grab>
+			<entityType>YoutubeVideo</entityType>
+		</define_element>
+		<!-- Profil ayant posté la vidéo -->
+		<define_element label="PublishedBy" type="entityToEntityLink">
+			<target_node_template>theNode.id=="watch-channel-stats"</target_node_template>
+			<targetType>YoutubeProfile</targetType>
+			<grab>theNode.childNodes[1].text</grab>
+			<sourceType>YoutubeVideo</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="watch-channel-stats"</target_node_template>
+			<grab>theNode.childNodes[1].href</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<define_element label="PostedVideosCount" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="watch-channel-stats"</target_node_template>
+			<grab>theNode.childNodes[6].textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<!-- Vidéos relatives, avec URL et titre, nombre de visionnages et posteur -->
+		<define_element label="RelatedVideo" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<targetType>YoutubeVideo</targetType>
+			<grab>theNode.search.replace("?v=","").split("&amp;")[0]</grab>
+			<sourceType>YoutubeVideo</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<grab>theNode.href.split("&amp;")[0]</grab>
+			<entityType>YoutubeVideo</entityType>
+			<entity>theNode.search.replace("?v=","").split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="Title" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<grab>theNode.firstChild.nodeValue</grab>
+			<entityType>YoutubeVideo</entityType>
+			<entity>theNode.search.replace("?v=","").split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="ViewsCount" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<grab>theNode.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.childNodes[2].firstChild.nodeValue.replace(",","")</grab>
+			<entityType>YoutubeVideo</entityType>
+			<entity>theNode.search.replace("?v=","").split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="PublishedBy" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<targetType>YoutubeProfile</targetType>
+			<grab>theNode.parentNode.nextSibling.nextSibling.childNodes[5].firstChild.text</grab>
+			<sourceType>YoutubeVideo</sourceType>
+			<source>theNode.search.replace("?v=","").split("&amp;")[0]</source>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="hLink" &amp;&amp; theNode.parentNode.parentNode.className=="watch-discoverbox-facets"</target_node_template>
+			<grab>theNode.parentNode.nextSibling.nextSibling.childNodes[5].firstChild.href</grab>
+			<entityType>YoutubeProfile</entityType>
+			<entity>theNode.parentNode.nextSibling.nextSibling.childNodes[5].firstChild.text</entity>
+		</define_element>
+	</filter>
+	
+	<!-- Filtre pour récupérer les infos des pages profil de YouTube -->
+	<filter label="YouTube Profile Pages" date="15 avril 2008">
+		<domain_template>http:\/\/www\.youtube\.com\/user\/.+</domain_template>
+		<!-- Profil, son URL, et autres données -->
+		<define_element label="YoutubeProfile" type="independantEntity">
+			<target_node_template>theNode.nodeName=="B" &amp;&amp; theNode.parentNode.className=="largeTitles"</target_node_template>
+			<grab>theNode.textContent</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="B" &amp;&amp; theNode.parentNode.className=="largeTitles"</target_node_template>
+			<grab>"http://www.youtube.com/user/"+theNode.textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<define_element label="Joined" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="smallText" &amp;&amp; theNode.parentNode.className=="padT3" &amp;&amp; theNode.textContent.match("Joined")!=null</target_node_template>
+			<grab>theNode.childNodes[1].textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<define_element label="LastLogin" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="smallText" &amp;&amp; theNode.parentNode.className=="padT3" &amp;&amp; theNode.textContent.match("Last Login")!=null</target_node_template>
+			<grab>theNode.childNodes[1].textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<define_element label="WatchedVideosCount" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="smallText" &amp;&amp; theNode.parentNode.className=="padT3" &amp;&amp; theNode.textContent.match("Videos Watched")!=null</target_node_template>
+			<grab>theNode.childNodes[1].textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<define_element label="SubscribersCount" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="smallText" &amp;&amp; theNode.parentNode.className=="padT3" &amp;&amp; theNode.textContent.match("Subscribers")!=null</target_node_template>
+			<grab>theNode.childNodes[1].textContent</grab>
+			<entityType>YoutubeProfile</entityType>
+		</define_element>
+		<!-- vidéos publiées, leur titre et le nombre de visionnage -->
+		<define_element label="HasPublished" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.className=="vtitle"</target_node_template>
+			<targetType>YoutubeVideo</targetType>
+			<grab>theNode.search.replace("?v=","").split("&amp;")[0]</grab>
+			<sourceType>YoutubeProfile</sourceType>
+		</define_element>	
+		<define_element label="Title" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.className=="vtitle"</target_node_template>
+			<grab>theNode.text</grab>
+			<entityType>YoutubeVideo</entityType>
+			<entity>theNode.search.replace("?v=","").split("&amp;")[0]</entity>
+		</define_element>
+		<define_element label="ViewsCount" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.parentNode.className=="vtitle"</target_node_template>
+			<grab>theNode.parentNode.nextSibling.nextSibling.childNodes[2].nodeValue.split(":")[1].replace(" ","").replace(",","")</grab>
+			<entityType>YoutubeVideo</entityType>
+			<entity>theNode.search.replace("?v=","").split("&amp;")[0]</entity>
+		</define_element>
+	</filter>
+	
+	<!-- Récupère le réseau des vidéos et profils sur dailymotion, plus quelques autres infos, sur les pages dédiées à une vidéo. -->
+	<filter label="Dailymotion Video Pages" date="15 avril 2008">
+		<domain_template>http:\/\/.*\.dailymotion\.com.*\/video\/.+</domain_template>
+		<!-- Vidéo sur la page, URL, description, durée -->
+		<define_element label="DailymotionVideo" type="independantEntity">
+			<target_node_template>theNode.id=="video_player_permalink_text"</target_node_template>
+			<grab>theNode.value.split("/video/")[1]</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.id=="video_player_permalink_text"</target_node_template>
+			<grab>theNode.value</grab>
+			<entityType>DailymotionVideo</entityType>
+		</define_element>
+		<define_element label="Description" type="entityUniqueProperty">
+			<target_node_template>theNode.className=="description foreground" &amp;&amp; theNode.parentNode.className=="dm_widget_container video_infos"</target_node_template>
+			<grab>theNode.firstChild.nodeValue</grab>
+			<entityType>DailymotionVideo</entityType>
+		</define_element>
+		<define_element label="Duration" type="entityUniqueProperty">
+			<target_node_template>theNode.className=="data foreground2"</target_node_template>
+			<grab>theNode.childNodes[0].firstChild.nodeValue.split(" : ")[1]</grab>
+			<entityType>DailymotionVideo</entityType>
+		</define_element>
+		<!-- Profil ayant publié la vidéo -->
+		<define_element label="PublishedBy" type="entityToEntityLink">
+			<target_node_template>theNode.nextSibling.id=="dm_widget_rating"</target_node_template>
+			<targetType>DailymotionProfile</targetType>
+			<grab>theNode.firstChild.pathname.replace("/","")</grab>
+			<sourceType>DailymotionVideo</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nextSibling.id=="dm_widget_rating"</target_node_template>
+			<grab>"http://www.dailymotion.com/"+theNode.firstChild.pathname.replace("/","")</grab>
+			<entityType>DailymotionProfile</entityType>
+			<entity>theNode.firstChild.pathname.replace("/","")</entity>
+		</define_element>		
+		<!-- Vidéos reliées -->
+		<define_element label="RelatedVideo" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="preview" &amp;&amp; theNode.parentNode.parentNode.parentNode.className=="video_context_list"</target_node_template>
+			<targetType>DailymotionVideo</targetType>
+			<grab>theNode.pathname.split("/video/")[1]</grab>
+			<sourceType>DailymotionVideo</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="preview" &amp;&amp; theNode.parentNode.parentNode.parentNode.className=="video_context_list"</target_node_template>
+			<grab>"http://www.dailymotion.com/video/"+theNode.pathname.split("/video/")[1]</grab>
+			<entityType>DailymotionVideo</entityType>
+			<entity>theNode.pathname.split("/video/")[1]</entity>
+		</define_element>
+	</filter>
+	
+	<!-- Récupère le réseau des vidéos et profils sur dailymotion, plus quelques autres infos, sur les pages dédiées à un profil. -->
+	<filter label="Dailymotion Profile Pages" date="15 avril 2008">
+		<domain_template>http:\/\/.*\.dailymotion\.com\/[^\/]+</domain_template>
+		<!-- Profil courant, son URL et le pays déclaré -->
+		<define_element label="DailymotionProfile" type="independantEntity">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="dmpi_user_avatar" &amp;&amp; theNode.parentNode.className=="dmpi_user_nav"</target_node_template>
+			<grab>theNode.pathname.replace("/","")</grab>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="dmpi_user_avatar" &amp;&amp; theNode.parentNode.className=="dmpi_user_nav"</target_node_template>
+			<grab>"http://www.dailymotion.com"+theNode.pathname</grab>
+			<entityType>DailymotionProfile</entityType>
+		</define_element>
+		<define_element label="UserName" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="dmco_box user_properties"</target_node_template>
+			<grab>theNode.childNodes[1].childNodes[3].textContent</grab>
+			<entityType>DailymotionProfile</entityType>
+		</define_element>
+		<define_element label="InscriptionDate" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="dmco_box user_properties"</target_node_template>
+			<grab>theNode.childNodes[3].childNodes[3].textContent</grab>
+			<entityType>DailymotionProfile</entityType>
+		</define_element>
+		<define_element label="Country" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="dmco_box user_properties"</target_node_template>
+			<grab>theNode.childNodes[7].childNodes[3].childNodes[3].textContent</grab>
+			<entityType>DailymotionProfile</entityType>
+		</define_element>
+		<!-- Les vidéos publiées par le profil -->
+		<define_element label="HasPublished" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="dmpi_video_preview"</target_node_template>
+			<targetType>DailymotionVideo</targetType>
+			<grab>theNode.childNodes[1].pathname.split("/video/")[1]</grab>
+			<sourceType>DailymotionProfile</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="DIV" &amp;&amp; theNode.className=="dmpi_video_preview"</target_node_template>
+			<grab>"http://"+theNode.childNodes[1].host+"/video/"+theNode.childNodes[1].pathname.split("/video/")[1]</grab>
+			<entityType>DailymotionVideo</entityType>
+			<entity>theNode.childNodes[1].pathname.split("/video/")[1]</entity>
+		</define_element>
+		<!-- Les amis du profil : on déclare le lien (qui créera l'entité au besoin) et on spécifie aussi l'URL du profil de l'ami -->
+		<define_element label="HasFriend" type="entityToEntityLink">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="dmpi_user_avatar light_border"</target_node_template>
+			<targetType>DailymotionProfile</targetType>
+			<grab>theNode.pathname.replace("/","")</grab>
+			<sourceType>DailymotionProfile</sourceType>
+		</define_element>
+		<define_element label="URL" type="entityUniqueProperty">
+			<target_node_template>theNode.nodeName=="A" &amp;&amp; theNode.className=="dmpi_user_avatar light_border"</target_node_template>
+			<grab>theNode.href</grab>
+			<entityType>DailymotionProfile</entityType>
+			<entity>theNode.pathname.replace("/","")</entity>
+		</define_element>
+	</filter>
+	
+	<!-- Filtre pour récupérer le réseau des articles sur archiveSIC (incomplet) -->
+	<filter label="ArchiveSIC" date="14 avril 2008">
+		<domain_template>http:\/\/archivesic\.ccsd\.cnrs\.fr\/.*sic_.*</domain_template>
+		<define_element label="asic_Article" type="independantEntity">
+			<target_node_template>theNode.className=="meta_title"</target_node_template>
+			<grab>theNode.firstChild.nodeValue</grab>
+		</define_element>
+		<define_element label="asic_Auteur" type="independantEntity">
+			<target_node_template>theNode.className=="meta_auteur" &amp;&amp; theNode.nodeName=="A"</target_node_template>
+			<grab>theNode.firstChild.nodeValue+" - "+theNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.childNodes[1].childNodes[4*(theNode.nextSibling.firstChild.nodeValue - 1)].childNodes[3].textContent</grab>
+		</define_element>
+		<define_element label="asic_Tag" type="independantEntity">
+			<target_node_template>theNode.className=="meta" &amp;&amp; theNode.firstChild.nodeName=="SPAN"</target_node_template>
+			<grab>theNode.childNodes[1].nodeValue.toLowerCase().split(" &#8211; ").join("_BROLYSPLIT_")</grab>
+		</define_element>
+		<define_element label="asic_description" type="entityToEntityLink">
+			<target_node_template>theNode.className=="meta" &amp;&amp; theNode.firstChild.nodeName=="SPAN"</target_node_template>
+			<targetType>asic_Tag</targetType>
+			<grab>theNode.childNodes[1].nodeValue.toLowerCase().split(" &#8211; ").join("_BROLYSPLIT_")</grab>
+			<sourceType>asic_Article</sourceType>
+		</define_element>
+		<define_element label="asic_writing" type="entityToEntityLink">
+			<target_node_template>theNode.className=="meta_auteur" &amp;&amp; theNode.nodeName=="A"</target_node_template>
+			<targetType>asic_Auteur</targetType>
+			<grab>theNode.firstChild.nodeValue+" - "+theNode.parentNode.parentNode.parentNode.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.childNodes[1].childNodes[4*(theNode.nextSibling.firstChild.nodeValue - 1)].childNodes[3].textContent</grab>
+			<sourceType>asic_Article</sourceType>
+		</define_element>
+	</filter>
+	
+	<!-- Aurélien Beltrame : concepts associés à une recherche, yahoo -->
+	<filter label="Yahoo Concepts associes" date="13 oct 2008">
+		<domain_template>http:\/\/fr\.search\.yahoo\.com\/searc.*</domain_template>
+		
+		
+		<define_element label="Word" type="independantEntity">
+			<target_node_template>theNode.nodeName=="A"
+			&amp;&amp;theNode.parentNode.nodeName=="LI"</target_node_template>
+			<grab>theNode.textContent</grab> 
+		</define_element>
+		<!-- 
+		
+			&amp;&amp;theNode.parentNode.nodeName=="LI"
+			&amp;&amp;theNode.parentNode.parentNode.nodeName=="UL"
+			&amp;&amp;theNode.parentNode.parentNode.parentNode.nodeName=="DIV"
+						&amp;&amp;theNode.parentNode.parentNode.parentNode.id=="atv"
+		
+		-->
+		<!-- ou alors on fait une independant Entity -->
+		<!--
+		<define_element label="WordsLinkURL" type="entityToSiteLink">
+			<target_node_template>theNode.nodeName=="A"
+			&amp;&amp;theNode.parentNode.nodeName=="LI"
+			&amp;&amp;theNode.parentNode.parentNode.nodeName=="UL"
+			&amp;&amp;theNode.parentNode.parentNode.id=="atvl-l"</target_node_template>
+			<entityType>URL</entityType>
+			<grab>theNode.href</grab>
+			<site>theNode.href</site>
+		</define_element>		
+		-->
+	</filter>
+</document>

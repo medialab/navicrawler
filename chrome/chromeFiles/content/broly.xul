@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE window SYSTEM "chrome://broly/locale/broly.dtd">
+
+<window 	id="brolySideBar" orient="vertical"
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			onload="window.top.nc_switch.ON();"
+			onunload="window.top.nc_switch.OFF();"
+			style="font-family: Gill, Helvetica, sans-serif; font-size:12px;"
+>
+	<vbox id="nc_waiting" style="background-color:#FFF; background-repeat:no-repeat; background-image: url(chrome://broly/content/minilogo.png); margin:15px; padding-top: 190px;">
+		<label style="font-size:16px;" value="&launchMsg1;"/>
+		<label style="font-weight:bold; font-size:14px;" value="&launchMsg2;"/>
+	</vbox>
+	
+	<scrollbox style="overflow:auto;" flex="1">
+	<tabbox id="nc_tabbox" flex="1"  hidden="true">
+		<tabs id="nc_tabbox_tabs" style="background-color:#FFF; background-repeat:no-repeat; background-image: url(chrome://broly/content/nc_bandeau.png); padding-top: 34px;">
+			<tab id="nc_nav_tab"   			label="&navTab;"/>
+			<tab id="nc_class_tab" 			label="&classTab;"/>
+			<tab id="nc_bot_tab"   			label="&crawlTab;"/>
+			<tab id="nc_heurisitques_tab" 	label="&heurTab;"/>
+			<tab id="nc_io_tab"    			label="&fileTab;"/>
+			<tab id="nc_util_tab"			label="&utilsTab;"/>
+			<tab id="nc_live_tab"			label="&liveTab;"/>
+			<tab id="nc_plus_tab"			label="&plusTab;"/>
+		</tabs>
+		<tabpanels flex="1">
+		
+		
+			<!--  Général  -->
+			<tabpanel flex="1">
+					<vbox flex="1">
+						<hbox>
+							<vbox>
+								<hbox>
+									<label style="font-size:9px;" value="&General.page;"/>
+									<label id="nc_currentUrl" style="font-size:9px;" value="&General.loadingWait;"/>
+								</hbox>
+								<hbox flex="1">
+									<vbox id="nc_deja_visitee_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BBB;">
+										<label style="font-size:9px;" value="&General.alreadyVisited1;"/>
+										<label style="font-size:9px;" value="&General.alreadyVisited2;"/>
+										<label id="nc_deja_visitee_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_liens_sortants_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#AAA;">
+										<label style="font-size:9px;" value="&General.linksOnPage1;"/>
+										<label style="font-size:9px;" value="&General.linksOnPage2;"/>
+										<label id="nc_liens_sortants_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_profondeur_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BA9;">
+										<label style="font-size:9px;" value="&General.depthInSite1;"/>
+										<label style="font-size:9px;" value="&General.depthInSite2;"/>
+										<label id="nc_profondeur_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox flex="1">
+										<spacer flex="1"/>
+										<hbox flex="1">
+											<spacer flex="1"/>
+											<vbox style="margin-left:10px;">
+												<image id="nc_flag_page_image" src="chrome://broly/content/flag_off.png"/>
+												<spacer flex="1"/>
+											</vbox>
+											<vbox>
+												<label id="nc_flag_page_label" style="font-size:10px;" value="-"/>
+												<button id="nc_flag_page_button" style="font-size:9px;" label="-"/>
+											</vbox>
+											<spacer flex="1"/>
+										</hbox>
+									<spacer flex="1"/>
+									</vbox>
+								</hbox>
+							</vbox>
+						</hbox>
+						<hbox style="margin-top: 5px; border-top: 1px solid #AAA;">
+							<vbox style="margin-right:5px;">
+								<hbox>
+									<label style="font-size:10px;" value="&General.site;"/>
+									<label id="nc_currentDmn" style="font-size:10px;" value="..."/>
+								</hbox>
+								<hbox>
+									<vbox id="nc_pages_visitees_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BAF;">
+										<label style="font-size:9px;" value="&General.visitedPages1;"/>
+										<label style="font-size:9px;" value="&General.visitedPages2;"/>
+										<label id="nc_pages_visitees_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_pages_reperees_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BBF;">
+										<label style="font-size:9px;" value="&General.flaggedPages1;"/>
+										<label style="font-size:9px;" value="&General.flaggedPages2;"/>
+										<label id="nc_pages_reperees_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_sites_refereurs_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BCF;">
+										<label style="font-size:9px;" value="&General.referers1;"/>
+										<label style="font-size:9px;" value="&General.referers2;"/>
+										<label id="nc_sites_refereurs_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="? =>X"/>
+									</vbox>
+									<vbox id="nc_sites_cites_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#BDF;">
+										<label style="font-size:9px;" value="&General.cited1;"/>
+										<label style="font-size:9px;" value="&General.cited2;"/>
+										<label id="nc_sites_cites_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="X=> ?"/>
+									</vbox>
+									<vbox flex="1">
+										<spacer flex="1"/>
+										<hbox flex="1">
+											<spacer flex="1"/>
+											<vbox style="margin-left:10px;">
+												<image id="nc_switch_site_state_image" src="chrome://broly/content/light_green.png"/>
+												<spacer flex="1"/>
+											</vbox>
+											<vbox>
+												<label id="nc_switch_site_state_label" style="font-size:10px;" value="-"/>
+												<button id="nc_switch_site_state_button" style="font-size:9px;" label="-"/>
+											</vbox>
+											<spacer flex="1"/>
+										</hbox>
+									<spacer flex="1"/>
+									</vbox>
+								</hbox>
+							</vbox>
+						</hbox>
+						<hbox style="margin-top: 5px; border-top: 1px solid #AAA;">
+							<vbox>
+								<hbox>
+									<label style="font-size:10px;" value="&General.session;"/>
+								</hbox>
+								<hbox>
+									<vbox id="nc_sites_visited_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#6F6;">
+										<label style="font-size:9px;" value="&General.in1;"/>
+										<label style="font-size:9px;" value="&General.in2;"/>
+										<label id="nc_sites_visited_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_sites_voisin_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#FC6;">
+										<label style="font-size:9px;" value="&General.next1;"/>
+										<label style="font-size:9px;" value="&General.next2;"/>
+										<label id="nc_sites_voisin_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+									<vbox id="nc_sites_frontier_box" style="border: 1px solid #AAA; margin-right: 2px; background-color:#F66;">
+										<label style="font-size:9px;" value="&General.out1;"/>
+										<label style="font-size:9px;" value="&General.out2;"/>
+										<label id="nc_sites_frontier_label" style="font-size:12px; font-weight:bold; background-color: #FFF;" value="?"/>
+									</vbox>
+								</hbox>
+							</vbox>
+							<!--<vbox>
+								<spacer flex="1"/>
+								<image src="chrome://broly/content/sites_exemple.png"/>
+							</vbox>-->
+						</hbox>
+						<hbox style="margin-top: 5px; border-top: 1px solid #AAA;" flex="1">
+							<vbox flex="1">
+								<label style="font-size:10px;" value="&General.table;"/>
+								<label id="nc_navList_label" style="font-size:12px;" value=""/>
+								<hbox id="nc_navList_legend" style="font-size:9px;">
+								</hbox>
+								<hbox flex="1">
+									<listbox id="nc_navList" flex="1">
+									</listbox>
+								</hbox>
+								<textbox style="font-size: 9px;" wrap="true" readonly="true" multiline="true" value="&General.bottomMsg;"/>
+								<button id="nc_navList_sort" style="font-size:9px; height:13px;" label="&General.sortButton;"/>
+								<hbox style="height:15px;">
+									<textbox id="nc_navList_find_box" style="font-size: 9px; height:13px;" wrap="false" value=".*" flex="1"/>
+									<button id="nc_navList_find" style="font-size:9px; height:13px;" label="&General.findButton;"/>
+								</hbox>
+							</vbox>
+						</hbox>
+					</vbox>
+			</tabpanel>
+			
+			
+			
+			
+			
+			<!--  Libelles Classer  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<label style="margin-top: 8px; font-size: 12px; border-top: 1px solid #AAA;" value="&Tags.add;"/>
+					<hbox>
+						<textbox style="" flex="1" id="nc_ajout_libelle_textbox" value=""/>
+						<button id="nc_ajout_libelle_button" style="font-size:9px;" label="&Tags.addButton;"/>
+					</hbox>
+					<label style="margin-top: 8px; font-size: 12px; border-top: 1px solid #AAA;" value="&Tags.addGroup;"/>
+					<hbox>
+						<textbox style="" flex="1" id="nc_ajout_groupe_textbox" value=""/>
+						<button id="nc_ajout_groupe_button" style="font-size:9px;" label="&Tags.addGroupButton;"/>
+					</hbox>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Tags.tags;"/>
+					<label id="nc_libelle_poursite" style="font-size: 9px;" value="???"/>
+					<scrollbox style="overflow:auto;" flex="1">
+						<vbox id="nc_libelles_vbox" flex="1">
+						</vbox>
+					</scrollbox>
+				</vbox>
+			</tabpanel>
+			
+			
+			
+			
+			
+			<!--  Crawl  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<textbox id="AdviseLabelRobot" style="font-size: 10px;" wrap="true" readonly="true" multiline="true" height="64px" value="&Crawl.warning;"/>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Crawl.controls;"/>
+					<hbox style="background-color: #666;">
+						<hbox id="nc_robot_play_box" flex="1">
+							<spacer flex="1"/>
+							<vbox>
+								<hbox>
+									<spacer flex="1"/>
+									<image id="nc_robot_play_img" src="chrome://broly/content/bouton_play_off.png"/>
+									<spacer flex="1"/>
+								</hbox>
+								<hbox>
+									<spacer flex="1"/>
+									<label style="font-size:10px; color:#FFF;" value="&Crawl.startButton;"/>
+									<spacer flex="1"/>
+								</hbox>
+							</vbox>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox  id="nc_robot_pause_box" flex="1">
+							<spacer flex="1"/>
+							<vbox>
+								<hbox>
+									<spacer flex="1"/>
+									<image id="nc_robot_pause_img" src="chrome://broly/content/bouton_pause_off.png"/>
+									<spacer flex="1"/>
+								</hbox>
+								<hbox>
+									<spacer flex="1"/>
+									<label style="font-size:10px; color:#FFF;" value="&Crawl.pauseButton;"/>
+									<spacer flex="1"/>
+								</hbox>
+							</vbox>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_robot_stop_box" flex="1">
+							<spacer flex="1"/>
+							<vbox>
+								<hbox>
+									<spacer flex="1"/>
+									<image id="nc_robot_stop_img" src="chrome://broly/content/bouton_stop_off.png"/>
+									<spacer flex="1"/>
+								</hbox>
+								<hbox>
+									<spacer flex="1"/>
+									<label style="font-size:10px; color:#FFF;" value="&Crawl.stopButton;"/>
+									<spacer flex="1"/>
+								</hbox>
+							</vbox>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Crawl.prefs;"/>
+					<hbox style="margin-top: 5px; background-color:#334; font-weight:bold; color:#FFF;">
+						<checkbox id="nc_crawlScrapped" label="&Crawl.crawlScrapped;" checked="false"/>
+					</hbox>
+					<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.scrapDepth;"/>
+					<label style="font-size: 9px;" value="&Crawl.scrapDepthText;"/>
+					<hbox id="nc_scrapDepth_box">
+						<hbox id="nc_scrapDepth_0_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="0"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_scrapDepth_1_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_scrapDepth_2_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="2"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_scrapDepth_3_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="3"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_scrapDepth_5_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="5"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_scrapDepth_6_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="10"/>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.depth;"/>
+					<label style="font-size: 9px;" value="&Crawl.depthText;"/>
+					<hbox id="nc_depth_box">
+						<hbox id="nc_depth_0_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="0"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_1_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_2_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="2"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_3_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="3"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_5_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="5"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_10_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="10"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_depth_999_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="999"/>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 5px; font-size: 10px;" value="Crawl.distance;"/>
+					<label style="font-size: 9px;" value="&Crawl.distanceText;"/>
+					<hbox id="nc_dist_box">
+						<hbox id="nc_dist_0_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="0"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_dist_1_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_dist_2_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="2"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_dist_3_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="3"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_dist_4_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="4"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_dist_5_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="5"/>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.tabs;"/>
+					<label style="font-size: 9px;" value="&Crawl.tabsText;"/>
+					<hbox id="nc_tabs_box">
+						<hbox id="nc_tabs_1_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tabs_3_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="3"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tabs_5_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="5"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tabs_10_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="10"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tabs_25_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="25"/>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.timing;"/>
+					<label style="font-size: 9px;" value="&Crawl.timingText;"/>
+					<hbox id="nc_tempo_box">
+						<hbox id="nc_tempo_32_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="32ms"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tempo_250_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1/4s"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tempo_1r1_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="1s à 2s"/>
+							<spacer flex="1"/>
+						</hbox>
+						<hbox id="nc_tempo_4r8_box" style="margin: 3px; border:5px solid #AAF; font-size: 10px; background-color:#AAF;"  flex="1">
+							<spacer flex="1"/>
+							<label value="4s à 12s"/>
+							<spacer flex="1"/>
+						</hbox>
+					</hbox>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Crawl.info;"/>
+					<hbox>
+						<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.waiting;"/>
+						<label id="waitingPages_label" style="margin-top: 5px; font-size: 10px;" value="0"/>
+						<label style="margin-top: 5px; font-size: 10px;" value="&Crawl.pages;"/>
+					</hbox>
+					<spacer height="10px"/>
+				</vbox>
+			</tabpanel>
+			
+			
+			
+			
+			
+			<!--  Heuristiques  -->
+			<tabpanel orient="vertical" flex="1">
+				<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&SCRAP.actives;"/>
+				<vbox style="overflow:auto; height:90px;" id="nc_heur_active_filters">
+				</vbox>
+				<button id="nc_reparse" style="font-size:10px; height:12px;" label="&reparse;"/>
+				<label style="margin-top: 5px; font-size: 12px; border-top: 1px solid #AAA;" value="&SCRAP.data;"/>
+				<tree id="nc_heuristiques_tree" style="font-size:9px;" flex="1">
+					<treecols>
+						<treecol label="&SCRAP.scrapped;" primary="true" flex="1"/>
+					</treecols>
+					<treechildren id="nc_heuristiques_treeChildren">
+					</treechildren>
+				</tree>
+				<spacer height="10px"/>
+				<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&SCRAP.io;"/>
+				<hbox>
+					<button id="nc_heur_export" style="font-size:10px;" label="&SCRAP.export;" flex="1"/>
+					<button id="nc_heur_import" style="font-size:10px;" label="&SCRAP.import;" flex="1"/>
+				</hbox>
+			</tabpanel>
+			
+			
+			
+			
+			
+			<!--  Import / Export  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&IO.reset;"/>
+					<spacer height="10px"/>
+					<button id="nc_reset_button" style="font-size:10px;" label="&IO.resetButton;"/>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&IO.import;"/>
+					<spacer height="10px"/>
+					<button id="nc_import_button" style="font-size:10px;" label="&IO.importWXSF;"/>
+					<spacer height="10px"/>
+					<textbox id="nc_OpenList" style="font-size: 10px;" wrap="true" multiline="true" height="64px" value="&IO.importList;"/>
+					<button id="nc_openlist_button" style="font-size:10px;" label="&IO.importListButton;"/>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&IO.export;"/>
+					<box style="background-color:#6F6;">
+						<checkbox id="nc_export_option_visite" label="&IO.in;" checked="true"/>
+					</box>
+					<box style="background-color:#F66;">
+						<checkbox id="nc_export_option_frontiere" label="&IO.out;" checked="true"/>
+					</box>
+					<box style="background-color:#FC6;">
+						<checkbox id="nc_export_option_voisin" label="&IO.next;" checked="true"/>
+					</box>
+					<box style="background-color:#334; font-weight:bold; color:#FFF;">
+						<checkbox id="nc_export_option_scrap" label="&IO.scrap;" checked="false"/>
+					</box>
+					<spacer height="10px"/>
+					<button id="nc_export_WXSF_button" style="font-size:10px;" label="&IO.exportWXSF;"/>
+					<spacer height="10px"/>
+					<button id="nc_export_GDF_button" style="font-size:10px;" label="&IO.exportGDF;"/>
+					<button id="nc_export_NET_button" style="font-size:10px;" label="&IO.exportNET;"/>
+					<button id="nc_export_CSV_button" style="font-size:10px;" label="&IO.exportCSV;"/>
+					<spacer height="10px"/>
+					<button id="nc_export_FlaggedPages_button" style="font-size:10px;" label="&IO.exportFlaggedPages;"/>
+					<button id="nc_export_pages_graph_button" style="font-size:10px;" label="Export Pages Graph"/>
+					<button id="nc_test_button" style="font-size:10px;" hidden="true" label="LOG"/>
+				</vbox>
+			</tabpanel>
+			
+			
+			
+			
+			
+			<!--  Utils  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<button id="nc_util_delete_voisins_feuilles_button" style="font-size:10px;" label="&Utils.deleteNext;"/>
+					<button id="nc_util_open_visites_button" style="font-size:10px;" label="&Utils.openInTabs;"/>
+				</vbox>
+			</tabpanel>
+			
+			
+			<!--  Live  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<checkbox id="nc_live_on" label="&Live.on;" checked="false"/>
+					<checkbox id="nc_live_onlySites" label="&Live.onlySites;" checked="true"/>
+					<textbox style="font-size: 10px;" wrap="true" readonly="true" multiline="true" height="64px" value="&Live.message;"/>
+				</vbox>
+			</tabpanel>
+			
+			
+			<!--  Plus (+)  -->
+			<tabpanel flex="1">
+				<vbox flex="1">
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Plus.optionnalTabs;"/>
+					<spacer height="10px"/>
+					<checkbox id="nc_plus_classTab" label="&Plus.classTab;" checked="true"/>
+					<checkbox id="nc_plus_crawlTab" label="&Plus.crawlTab;" checked="false"/>
+					<checkbox id="nc_plus_heurTab" label="&Plus.heurTab;" checked="false"/>
+					<checkbox id="nc_plus_utilsTab" label="&Plus.utilsTab;" checked="false"/>
+					<checkbox id="nc_plus_liveTab" label="&Plus.liveTab;" checked="false"/>
+					<spacer flex="1"/>
+					<label style="margin-top: 15px; font-size: 12px; border-top: 1px solid #AAA;" value="&Plus.credits;"/>
+					<spacer height="10px"/>
+					<label class="text-link" style="font-size: 10px;cursor:pointer;" value="&Plus.webatlas;" href="http://www.webatlas.fr"/>
+					<label style="font-size: 10px;" value="&Plus.developers;"/>
+					<label style="font-size: 10px;" value="Soutiens : Orange R&amp;D - IDF - FMSH"/>
+					<label class="text-link" style="font-size: 10px;cursor:pointer;" value="&Plus.download;" href="http://www.webatlas.fr/index.php?page=Tlcharger"/>
+					<label class="text-link" style="font-size: 10px;cursor:pointer;" value="&Plus.doc;" href="http://www.webatlas.fr/index.php?page=Documentation"/>
+				</vbox>
+			</tabpanel>
+			
+			
+			
+		</tabpanels>
+	</tabbox>
+	</scrollbox>
+	
+	<progressmeter id="nc_progress" mode="determined" value="0" hidden="true"/>
+	<label id="nc_progress_text" value="..." crop="end" hidden="true"/>
+
+</window>

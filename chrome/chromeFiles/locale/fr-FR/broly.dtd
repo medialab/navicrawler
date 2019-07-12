@@ -1,0 +1,116 @@
+<!ENTITY	turnOnNavicrawler			"Allumer le Navicrawler">
+
+<!ENTITY	navTab						"Nav ">
+<!ENTITY	classTab					"Classer ">
+<!ENTITY	crawlTab					"Crawl ">
+<!ENTITY	heurTab						"Heur. ">
+<!ENTITY	fileTab						"File ">
+<!ENTITY	utilsTab					"Utils ">
+<!ENTITY	plusTab						"(+)">
+<!ENTITY	liveTab						"Tps réel ">
+
+<!ENTITY	launchMsg1					"WebAtlas Navicrawler">
+<!ENTITY	launchMsg2					"Chargez une page pour démarrer !">
+<!ENTITY	reparse						"Réanalyser la page courante">
+
+<!ENTITY	General.page				"Page :  ">
+<!ENTITY	General.loadingWait			"En attente de chargement...">
+<!ENTITY	General.alreadyVisited1		"Déjà">
+<!ENTITY	General.alreadyVisited2		"Visitée">
+<!ENTITY	General.linksOnPage1		"Liens sur">
+<!ENTITY	General.linksOnPage2		"la page">
+<!ENTITY	General.depthInSite1		"Profondeur">
+<!ENTITY	General.depthInSite2		"dans le site">
+<!ENTITY	General.site				"Site :  ">
+<!ENTITY	General.visitedPages1		"Pages">
+<!ENTITY	General.visitedPages2		"Visitées">
+<!ENTITY	General.flaggedPages1		"Pages">
+<!ENTITY	General.flaggedPages2		"Repérées">
+<!ENTITY	General.referers1			"Sites">
+<!ENTITY	General.referers2			"Référents">
+<!ENTITY	General.cited1				"Sites">
+<!ENTITY	General.cited2				"Cités">
+<!ENTITY	General.session				"Session :  ">
+<!ENTITY	General.in1					"Sites">
+<!ENTITY	General.in2					"Incorporés">
+<!ENTITY	General.next1				"Sites">
+<!ENTITY	General.next2				"Prochains">
+<!ENTITY	General.out1				"Sites">
+<!ENTITY	General.out2				"Ecartés">
+<!ENTITY	General.table				"Tableau :  ">
+<!ENTITY	General.bottomMsg			"'clic' = aller à ; 'ctrl+clic' = aller à dans un nouvel onglet ;  'maj+clic' = mettre le site en frontière">
+<!ENTITY	General.sortButton			"Trier">
+<!ENTITY	General.findButton			"Chercher">
+
+<!ENTITY	Tags.tags					"Libellés">
+<!ENTITY	Tags.add					"Ajouter un Libellé">
+<!ENTITY	Tags.addButton				"Ajouter Libellé">
+<!ENTITY	Tags.addGroup				"Ajouter un groupe de libellés">
+<!ENTITY	Tags.addGroupButton			"Ajouter Groupe">
+
+<!ENTITY	Crawl.warning				"Attention, l'abus des fonctionnalités de navigation automatique peut poser des problèmes aux webmestres et entrainer le banissement de votre IP. Utilisez cette fonctionnalité à vos risques et périls.">
+<!ENTITY	Crawl.controls				"Contrôles">
+<!ENTITY	Crawl.crawlScrapped			"Crawler selon les heuristiques">
+<!ENTITY	Crawl.startButton			"Démarrer">
+<!ENTITY	Crawl.pauseButton			"Mettre en pause">
+<!ENTITY	Crawl.stopButton			"Arrêter">
+<!ENTITY	Crawl.prefs					"Paramètres">
+<!ENTITY	Crawl.scrapDepth			"Profondeur heuristique :">
+<!ENTITY	Crawl.scrapDepthText		"(Nombre max de liens successifs entre entités heuristiques)">
+<!ENTITY	Crawl.depth					"Profondeur maximale :">
+<!ENTITY	Crawl.depthText				"(Nombre max de liens successifs entre PAGES dans chaque site)">
+<!ENTITY	Crawl.distance				"Distance maximale :">
+<!ENTITY	Crawl.distanceText			"(Nombre max de liens successifs entre SITES)">
+<!ENTITY	Crawl.tabs					"Nombre d'onglets à ouvrir :">
+<!ENTITY	Crawl.tabsText				"(Onglets naviguant simultanément)">
+<!ENTITY	Crawl.timing				"Intervalle entre les chargements :">
+<!ENTITY	Crawl.timingText			"(temps d'attente artificiel pour ne pas surcharger les sites navigués)">
+<!ENTITY	Crawl.info					"Informations">
+<!ENTITY	Crawl.waiting				"En attente de téléchargement : ">
+<!ENTITY	Crawl.pages					" pages.">
+
+<!ENTITY	IO.reset					"Reset">
+<!ENTITY	IO.resetButton				"Remettre la mémoire à Zéro">
+<!ENTITY	IO.import					"Import">
+<!ENTITY	IO.importWXSF				"Importer WXSF">
+<!ENTITY	IO.importList				"Pour ouvrir une liste d'urls, collez-la dans cet espace et cliquez sur 'Ouvrir la liste des Urls'">
+<!ENTITY	IO.importListButton			"Ouvrir la liste des Urls">
+<!ENTITY	IO.export					"Export">
+<!ENTITY	IO.in						"Sites Incorporés">
+<!ENTITY	IO.out						"Sites Ecartés">
+<!ENTITY	IO.next						"Sites Prochains">
+<!ENTITY	IO.scrap					"Entités &amp; Props. Heuristiques">
+<!ENTITY	IO.exportWXSF				"Enregistrer en WXSF (Navicrawler)">
+<!ENTITY	IO.exportGDF				"Exporter en GDF (Guess)">
+<!ENTITY	IO.exportNET				"Exporter en NET (Pajek)">
+<!ENTITY	IO.exportCSV				"Exporter en CSV (tableau des sites)">
+<!ENTITY	IO.exportHeurCSV			"Exporter Heuristiques en .csv">
+<!ENTITY	IO.exportFlaggedPages		"Exporter Pages Marquées (.csv)">
+
+<!ENTITY	SCRAP.actives				"Filtres actifs">
+<!ENTITY	SCRAP.data					"Données">
+<!ENTITY	SCRAP.scrapped				"Données récupérées">
+<!ENTITY	SCRAP.io					"Editer les filtres">
+<!ENTITY	SCRAP.export				"Editer">
+<!ENTITY	SCRAP.import				"Importer">
+
+<!ENTITY	Utils.deleteNext			"Effacer les voisins cités une fois seulement">
+<!ENTITY	Utils.openInTabs			"Ouvrir chaque site visité dans un onglet">
+
+<!ENTITY	Live.on						"Activer">
+<!ENTITY	Live.onlySites				"Sites uniquement (décoché : pages)">
+<!ENTITY	Live.message				"Ouvrez Géphi et ouvrez la source de données Navicrawler avant d'activer. Le graphe sera alors communiqué en temps réel dans Géphi.">
+
+<!ENTITY	Plus.optionnalTabs			"Configuration des onglets optionnels">
+<!ENTITY	Plus.classTab				"Classer">
+<!ENTITY	Plus.crawlTab				"Crawl">
+<!ENTITY	Plus.heurTab				"Heuristiques">
+<!ENTITY	Plus.utilsTab				"Utilitaires">
+<!ENTITY	Plus.liveTab				"Connection Géphi temps réel">
+<!ENTITY	Plus.credits				"Credits">
+<!ENTITY	Plus.webatlas				"Outil développé par l'association WebAtlas">
+<!ENTITY	Plus.developers				"Développeurs : Mathieu Jacomy et Anne l'Hôte">
+<!ENTITY	Plus.download				"> Téléchargement">
+<!ENTITY	Plus.doc					"> Documentation">
+
+<!ENTITY	entity						"Texte">

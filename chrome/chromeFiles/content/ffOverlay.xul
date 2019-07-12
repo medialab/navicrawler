@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay>
+
+<overlay id="BrolyOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="application/x-javascript" src="chrome://broly/content/navicrawler.js"/>
+	<script type="application/x-javascript" src="chrome://broly/content/MD5.js"/>
+	<script type="application/x-javascript" src="chrome://broly/content/splash.js"/>
+
+	<menupopup id="viewSidebarMenu">
+		<menuitem key="keyopenBrolySidebar" observes="viewBrolySidebar"/>
+	</menupopup>
+
+	<keyset id="mainKeyset">
+		<key id="keyopenBrolySidebar" modifiers="control,shift" key="N" command="viewBrolySidebar" />
+	</keyset>
+
+	<broadcasterset id="mainBroadcasterSet">
+		<broadcaster	id="viewBrolySidebar"
+						autoCheck="false"
+						label="Navicrawler"
+						type="checkbox"
+						group="sidebar"
+						sidebarurl="chrome://broly/content/broly.xul"
+						sidebartitle="WebAtlas.fr - Navicrawler"
+						oncommand="toggleSidebar('viewBrolySidebar');"/>
+	</broadcasterset>
+
+	<statusbar id="status-bar">
+		<label id="broly-status" width="5" value=""/>
+		<vbox>
+			<spacer flex="1"/>
+			<image id="nc_on_off_picture" src="chrome://broly/content/nc_off.png"/>
+			<spacer flex="1"/>
+		</vbox>
+		<button id="startCapture-button" label="Navicrawler" style="height:20px;" oncommand="toggleSidebar('viewBrolySidebar');"/>
+	</statusbar>
+</overlay>

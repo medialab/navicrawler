@@ -1,0 +1,6 @@
+content			broly									file:chrome/chromeFiles/content/
+
+overlay			chrome://browser/content/browser.xul	chrome://broly/content/ffOverlay.xul
+
+locale			broly			en-US					file:chrome/chromeFiles/locale/en-US/
+locale			broly			fr-FR					file:chrome/chromeFiles/locale/fr-FR/

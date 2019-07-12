@@ -1,0 +1,116 @@
+<!ENTITY	turnOnNavicrawler			"Turn on Navicrawler">
+
+<!ENTITY	navTab						"Nav ">
+<!ENTITY	classTab					"Tag ">
+<!ENTITY	crawlTab					"Crawl ">
+<!ENTITY	heurTab						"Scrap ">
+<!ENTITY	fileTab						"File ">
+<!ENTITY	utilsTab					"Misc ">
+<!ENTITY	plusTab						"(+)">
+<!ENTITY	liveTab						"Live">
+
+<!ENTITY	launchMsg1					"WebAtlas Navicrawler">
+<!ENTITY	launchMsg2					"Load a page to Start !">
+<!ENTITY	reparse						"Scrap again current page">
+
+<!ENTITY	General.page				"Page :  ">
+<!ENTITY	General.loadingWait			"Wait for loading...">
+<!ENTITY	General.alreadyVisited1		"Already">
+<!ENTITY	General.alreadyVisited2		"Browsed">
+<!ENTITY	General.linksOnPage1		"Links in">
+<!ENTITY	General.linksOnPage2		"the page">
+<!ENTITY	General.depthInSite1		"Depth">
+<!ENTITY	General.depthInSite2		"in site">
+<!ENTITY	General.site				"Site :  ">
+<!ENTITY	General.visitedPages1		"Browsed">
+<!ENTITY	General.visitedPages2		"Pages">
+<!ENTITY	General.flaggedPages1		"Flagged">
+<!ENTITY	General.flaggedPages2		"Pages">
+<!ENTITY	General.referers1			"Referer">
+<!ENTITY	General.referers2			"Sites">
+<!ENTITY	General.cited1				"Target">
+<!ENTITY	General.cited2				"Sites">
+<!ENTITY	General.session				"Session :  ">
+<!ENTITY	General.in1					"'IN'">
+<!ENTITY	General.in2					"Sites">
+<!ENTITY	General.next1				"'NEXT'">
+<!ENTITY	General.next2				"Sites">
+<!ENTITY	General.out1				"'OUT'">
+<!ENTITY	General.out2				"Sites">
+<!ENTITY	General.table				"Table :  ">
+<!ENTITY	General.bottomMsg			"'click' = browse ; 'ctrl+click' = browse in a new tab ;  'shift+click' = put site out of corpus.">
+<!ENTITY	General.sortButton			"Sort">
+<!ENTITY	General.findButton			"Find">
+
+<!ENTITY	Tags.tags					"Tags">
+<!ENTITY	Tags.add					"New Tag">
+<!ENTITY	Tags.addButton				"Add Tag">
+<!ENTITY	Tags.addGroup				"New Group">
+<!ENTITY	Tags.addGroupButton			"Add Group">
+
+<!ENTITY	Crawl.warning				"Warning. Crawl at you own risks : you're responsible for illegal uses.">
+<!ENTITY	Crawl.controls				"Controls">
+<!ENTITY	Crawl.crawlScrapped			"Crawl by scrapped data">
+<!ENTITY	Crawl.startButton			"Start">
+<!ENTITY	Crawl.pauseButton			"Pause">
+<!ENTITY	Crawl.stopButton			"Stop">
+<!ENTITY	Crawl.prefs					"Parameters">
+<!ENTITY	Crawl.scrapDepth			"Scrapped Data Depth :">
+<!ENTITY	Crawl.scrapDepthText		"(max links count to reach a scrapped ENTITY)">
+<!ENTITY	Crawl.depth					"Max depth :">
+<!ENTITY	Crawl.depthText				"(max links count to reach a PAGE in the site)">
+<!ENTITY	Crawl.distance				"Max distance :">
+<!ENTITY	Crawl.distanceText			"(max sitelinks count to reach a SITE)">
+<!ENTITY	Crawl.tabs					"Tabs count :">
+<!ENTITY	Crawl.tabsText				"(Tabs used to browse faster)">
+<!ENTITY	Crawl.timing				"Timing :">
+<!ENTITY	Crawl.timingText			"(artificial waiting time between loadings)">
+<!ENTITY	Crawl.info					"Informations">
+<!ENTITY	Crawl.waiting				"Waiting to load : ">
+<!ENTITY	Crawl.pages					" pages.">
+
+<!ENTITY	IO.reset					"Reset">
+<!ENTITY	IO.resetButton				"Reset session">
+<!ENTITY	IO.import					"Import">
+<!ENTITY	IO.importWXSF				"Import WXSF">
+<!ENTITY	IO.importList				"To browse a list of URLs, paste it here and click 'Open URLs list'">
+<!ENTITY	IO.importListButton			"Open URLs list">
+<!ENTITY	IO.export					"Export">
+<!ENTITY	IO.in						"'IN' Sites">
+<!ENTITY	IO.out						"'OUT' Sites">
+<!ENTITY	IO.next						"'NEXT' Sites">
+<!ENTITY	IO.scrap					"Scrapped Entities &amp; Proper.">
+<!ENTITY	IO.exportWXSF				"Export WXSF (Navicrawler)">
+<!ENTITY	IO.exportGDF				"Export GDF (Guess)">
+<!ENTITY	IO.exportNET				"Export NET (Pajek)">
+<!ENTITY	IO.exportCSV				"Export CSV (sites table)">
+<!ENTITY	IO.exportHeurCSV			"Export Scrapped Data (.csv)">
+<!ENTITY	IO.exportFlaggedPages		"Export Flagged Pages (.csv)">
+
+<!ENTITY	SCRAP.actives				"Active Filters">
+<!ENTITY	SCRAP.data					"Data">
+<!ENTITY	SCRAP.scrapped				"Scrapped Data">
+<!ENTITY	SCRAP.io					"Edit filters">
+<!ENTITY	SCRAP.export				"Edit (export)">
+<!ENTITY	SCRAP.import				"Import">
+
+<!ENTITY	Utils.deleteNext			"Remove 'NEXT' sites if only one inbound link">
+<!ENTITY	Utils.openInTabs			"Browse each 'IN' site in a new tab">
+
+<!ENTITY	Live.on						"Activate">
+<!ENTITY	Live.onlySites				"Only Sites (unchecked : pages)">
+<!ENTITY	Live.message				"Open Gephi and enable Navicrawler Datasource before activating. Then you'll get the Live Graph.">
+
+<!ENTITY	Plus.optionnalTabs			"Hide/Show more Navicrawler Tabs">
+<!ENTITY	Plus.classTab				"Tags">
+<!ENTITY	Plus.crawlTab				"Crawl">
+<!ENTITY	Plus.heurTab				"Scrapping">
+<!ENTITY	Plus.utilsTab				"Miscillaneous">
+<!ENTITY	Plus.liveTab				"Live Gephi Connection">
+<!ENTITY	Plus.credits				"Credits">
+<!ENTITY	Plus.webatlas				"Tool developed in WebAtlas">
+<!ENTITY	Plus.developers				"Developers : Mathieu Jacomy and Anne l'Hôte">
+<!ENTITY	Plus.download				"> Download">
+<!ENTITY	Plus.doc					"> Documentation (french)">
+
+<!ENTITY	entity						"Texte">

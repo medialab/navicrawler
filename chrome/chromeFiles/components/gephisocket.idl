@@ -1,0 +1,8 @@
+#include "nsISupports.idl"
+
+[scriptable, uuid(9a12b8a0-8f40-11dd-ad8b-0800200c9a66)]
+interface nsIGephiSocket : nsISupports
+{
+  void createConnection(in string host, in string port);
+  void pushData(in string data);
+};  
