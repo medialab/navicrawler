@@ -1,15 +1,6 @@
-Informations sur le Navicrawler
+# Navicrawler
 
----
-
-Copyright 2006, 2007 Mathieu Jacomy
-
-Développeurs : Mathieu Jacomy, Anne L'Hôte
- 
-Contact :
-Mathieu Jacomy
-mathieu.jacomy@gmail.com
-http://webatlas.fr
+![visual.png](visual.png)
 
 ---
 
@@ -41,3 +32,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+## Credits
+
+Copyright 2006, 2007 Mathieu Jacomy
+
+Développeurs : Mathieu Jacomy, Anne L'Hôte
+ 
+Contact :
+Mathieu Jacomy
+mathieu.jacomy@gmail.com
+http://webatlas.fr
+
