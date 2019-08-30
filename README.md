@@ -4,6 +4,10 @@
 
 ---
 
+Some methodological documentation can be found in the [`doc`](doc) directory.  
+
+---
+
 Ce logiciel est libre ; vous pouvez le redistribuer et/ou le
 modifier dans les termes énoncés par la Licence Générale Publique
 telle que publiée par la Fre Software Fondation ; dans sa version 3
